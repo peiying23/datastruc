@@ -75,6 +75,18 @@ public class AnnualFlightScheduler {
 
                 flight.confirmedTicketList.addAll(confirmedPassengersList);
                 flight.waitingList.addAll(waitlistedPassengersList);
+                
+                for (Passenger p : flight.confirmedTicketList) {
+                    Ticket ticket = new Ticket(p, flight);
+                    ticket.setStatus("confirmed");
+                    p.addTicketToBucket(ticket);
+                }
+                
+                for (Passenger p : flight.waitingList) {
+                    Ticket ticket = new Ticket(p, flight);
+                    ticket.setStatus("waiting list");
+                    p.addTicketToBucket(ticket);
+                }
 
                 flightsByDate.computeIfAbsent(date, k -> new ArrayList<>()).add(flight);
             } else {
